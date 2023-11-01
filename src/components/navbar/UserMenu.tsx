@@ -1,15 +1,26 @@
 "use client";
 import { AiOutlineMenu } from "react-icons/ai";
 import Avatar from "../global/Avatar";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import MenuItem from "./MenuItem";
+import useRegisterModal from "@/hooks/useRegisterModal";
+import { useClickOutside } from "@/helpers/useClickOutside";
 
 const UserMenu = () => {
+  const registerModal = useRegisterModal();
   const [isOpen, setIsOpen] = useState(false);
+
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
   }, []);
+
+  const closeDropdown = () => {
+    setIsOpen(false);
+  };
+
+  useClickOutside(dropdownRef, closeDropdown);
   return (
     <div className="relative">
       <div className="flex items-center gap-3">
@@ -27,10 +38,19 @@ const UserMenu = () => {
         </div>
       </div>
       {isOpen && (
-        <div className="absolute rounded-xl shadow-md w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm">
+        <div
+          ref={dropdownRef}
+          className="absolute rounded-xl shadow-md w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm"
+        >
           <div className="flex flex-col cursor-pointer">
             <MenuItem onclick={() => {}} label="Login" />
-            <MenuItem onclick={() => {}} label="Sign Up" />
+            <MenuItem
+              onclick={() => {
+                registerModal.onOpen();
+                toggleOpen();
+              }}
+              label="Sign Up"
+            />
           </div>
         </div>
       )}
