@@ -93,6 +93,7 @@ const Modal: React.FC<ModalProps> = ({
          bg-neutral-800/70"
       >
         <div
+          ref={modalRef}
           className="
         relative
          w-full 
@@ -107,7 +108,6 @@ const Modal: React.FC<ModalProps> = ({
         >
           {/* Content */}
           <div
-            ref={modalRef}
             className={`
             duration-300
             h-full 
@@ -183,7 +183,7 @@ const Modal: React.FC<ModalProps> = ({
                   {secondaryAction && secondaryActionLabel && (
                     <Button
                       disabled={disabled}
-                      label=""
+                      label="Back"
                       onClick={() => {}}
                       // outline
                     />
@@ -191,7 +191,7 @@ const Modal: React.FC<ModalProps> = ({
                   <Button
                     disabled={disabled}
                     label={actionLabel}
-                    // onClick={handleSubmit}
+                    onClick={handleSubmit}
                   />
                 </div>
                 {footer}
