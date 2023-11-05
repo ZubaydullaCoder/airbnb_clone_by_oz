@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import useRegisterModal from "@/hooks/useRegisterModal";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 
@@ -52,6 +52,11 @@ const LoginModal = () => {
     });
   };
 
+  const toggle = useCallback(() => {
+    loginModal.onClose();
+    registerModal.onOpen();
+  }, [loginModal, registerModal]);
+
   //   body content start
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -85,7 +90,7 @@ const LoginModal = () => {
         outline
         label="Continue with Google"
         icon={FcGoogle}
-        onClick={() => {}}
+        onClick={() => signIn("google")}
       />
       <Button
         outline
@@ -102,16 +107,16 @@ const LoginModal = () => {
       "
       >
         <div className="flex items-center justify-center gap-2">
-          <div>Already have an account?</div>
+          <div>First time using Airbnb?</div>
           <div
-            onClick={registerModal.onClose}
+            onClick={toggle}
             className="
           text-neutral-800
           cursor-pointer
           hover:underline
           "
           >
-            Log in
+            Create an account
           </div>
         </div>
       </div>

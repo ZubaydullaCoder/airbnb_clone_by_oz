@@ -10,6 +10,7 @@ import useLoginModal from "@/hooks/useLoginModal";
 
 import { signOut } from "next-auth/react";
 import { SafeUser } from "@/types";
+import useRentModal from "@/hooks/useRentModal";
 
 interface UserMenuProps {
   currentUser?: SafeUser | null;
@@ -17,7 +18,7 @@ interface UserMenuProps {
 
 const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   // const { data: session, status } = useSession();
-
+  const rentModal = useRentModal();
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
   const [isOpen, setIsOpen] = useState(false);
@@ -28,6 +29,13 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
     setIsOpen((value) => !value);
   }, []);
 
+  const onRentOpen = useCallback(() => {
+    if (!currentUser) {
+      return loginModal.onOpen();
+    }
+    rentModal.onOpen();
+  }, [currentUser, loginModal, rentModal]);
+
   const closeDropdown = () => {
     setIsOpen(false);
   };
@@ -36,7 +44,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   return (
     <div className="relative">
       <div className="flex items-center gap-3">
-        <div className="hidden md:block text-base font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer">
+        <div
+          onClick={onRentOpen}
+          className="hidden md:block text-base font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
+        >
           Airbnb your home
         </div>
         <div
@@ -61,7 +72,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                 <MenuItem onclick={() => {}} label="My favorites" />
                 <MenuItem onclick={() => {}} label="My reservations" />
                 <MenuItem onclick={() => {}} label="My properties" />
-                <MenuItem onclick={() => {}} label="Airbnb my home" />
+                <MenuItem onclick={onRentOpen} label="Airbnb my home" />
                 <MenuItem onclick={() => signOut()} label="Logout" />
               </>
             ) : (
