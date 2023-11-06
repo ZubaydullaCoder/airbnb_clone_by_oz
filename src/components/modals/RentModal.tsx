@@ -266,6 +266,7 @@ const RentModal = () => {
 
   return (
     <Modal
+      disabled={loading}
       isOpen={rentModal.isOpen}
       onClose={rentModal.onClose}
       onSubmit={handleSubmit(onSubmit)}

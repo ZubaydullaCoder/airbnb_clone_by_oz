@@ -4,7 +4,7 @@ import Avatar from "../global/Avatar";
 import { useCallback, useEffect, useRef, useState } from "react";
 import MenuItem from "./MenuItem";
 import useRegisterModal from "@/hooks/useRegisterModal";
-import { useClickOutside } from "@/helpers/useClickOutside";
+import { useClickOutside } from "@/utils/useClickOutside";
 import useLoginModal from "@/hooks/useLoginModal";
 // import { useSession } from "next-auth/react";
 
